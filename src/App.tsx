@@ -1,18 +1,26 @@
-import { useState } from "react";
 import "./App.css";
 import { RenderCounter } from "./RenderCounter";
-import { StatefulComponent, StatelessComponent } from "./SimpleComponent";
+import { Counter } from "./Counter";
+import { useEffect, useState } from "react";
+import { SideEffect } from "./SideEffect";
+
+const useCustomHook = () => {
+  useEffect(() => {
+    console.log("mounted");
+  }, []);
+
+};
 
 function App() {
+  useCustomHook();
   const [count, setCount] = useState(0);
+
 
   return (
     <>
       <RenderCounter />
 
-      {/* <button onClick={() => setCount((prevCount) => prevCount + 1)}>
-        count is {count}
-      </button> */}
+      <Counter count={count} onClick={() => setCount(prevCount => prevCount + 1)}/>
 
       {/* <TodoList/> */}
 
@@ -20,12 +28,11 @@ function App() {
 
       {/* <Callback/> */}
 
-      {/* <SideEffect count={count}/> */}
+      <SideEffect count={count}/>
 
-      <StatelessComponent text="some text"/>
+      {/* <StatelessComponent text="some text"/>
 
-      <StatefulComponent text="initial text"/>
-
+      <StatefulComponent text="initial text"/> */}
     </>
   );
 }

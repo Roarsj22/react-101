@@ -1,10 +1,12 @@
+import { useState } from "react";
+
 interface TodoItem {
   id: number;
   text: string;
   done: boolean;
 }
 
-const todoList: Array<TodoItem> = [
+const initialTodoList: Array<TodoItem> = [
   {
     id: 1,
     text: "Learn React",
@@ -18,11 +20,21 @@ const todoList: Array<TodoItem> = [
 ];
 
 export function TodoList() {
+  const [todoList, setTodoList] = useState(initialTodoList);
+
+  const handleCheckboxChange = (todo: TodoItem, index: number) => {
+    setTodoList(prevTodoList => {
+      const newTodoList = [...prevTodoList];
+      newTodoList[index] = { ...todo, done: !todo.done };
+      return newTodoList;
+    })
+  };
+
   return (
     <ul>
-      {todoList.map((todo) => (
+      {todoList.map((todo, index) => (
         <li key={todo.id}>
-          <input type="checkbox" checked={todo.done} />
+          <input type="checkbox" checked={todo.done} onChange={() => handleCheckboxChange(todo, index)} />
           {todo.text}
         </li>
       ))}
